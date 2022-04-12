@@ -1,0 +1,39 @@
+.list {
+  padding: 20px;
+  display: grid;
+  grid-template-rows: repeat(1, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-gap: 15px;
+}
+
+.item {
+  border-radius: 5px;
+  overflow: hidden;
+  transition: 0.5s linear;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.item:hover,
+.item:focus {
+  /* transform: scale(1.02); */
+  /* box-shadow: var(--accent-shadow); */
+  /* background-color: #f1f4f7; */
+  /* background: #67758a; */
+  /* color: rgb(232, 228, 238); */
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.content {
+  padding: 5px;
+}
+.avatar {
+  width: 175px;
+  height: 260px;
+}
+.name {
+  font-size: 20px;
+  font-weight: 700;
+}
+.character {
+  font-style: italic;
+}

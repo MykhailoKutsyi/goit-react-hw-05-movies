@@ -1,0 +1,43 @@
+.MovieDetail {
+  background-color: white;
+  border-radius: 8px;
+}
+.detailsBlock {
+  display: flex;
+  padding: 20px;
+}
+
+.infoBlock {
+  padding: 25px;
+}
+
+.poster {
+  border-radius: 6px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+
+.text {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.linkBlock {
+  margin: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.link {
+  font-size: 25px;
+  font-weight: 700;
+  color: rgb(48, 44, 83);
+  transition: 0.2s linear;
+}
+
+.link:hover {
+  color: aqua;
+}
