@@ -1,48 +1,60 @@
-import { getMovieCast } from '../../API/fetchAPI';
 import { useState, useEffect } from 'react';
-// import { fetchmovies } from '../API/fetchAPI';
-// import { Route } from 'react-router-dom';
-
 import { useParams } from 'react-router-dom';
-import { IMG_URL } from 'components/CONST';
-// import { Link } from 'react-router-dom';
-import s from './Cast.module.css';
+
+import Loader from 'components/Loader';
+
+import { API_KEY, URL, IMG_URL } from 'components/CONST';
 import defaultImage from '../../IMG/defaultUserImage.png';
+import s from './Cast.module.css';
 
 export default function MovieDetailCastSubView() {
   const [cast, setCast] = useState(null);
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState(null);
   const { movieId } = useParams();
 
   useEffect(() => {
-    getMovieCast(movieId).then(setCast);
+    setStatus('pending');
+    const axios = require('axios');
+
+    async function getMovieCast(movieId) {
+      const url = `${URL}movie/${movieId}/credits?api_key=${API_KEY}`;
+      try {
+        const response = await axios.get(url);
+        return response.data;
+      } catch (error) {
+        setError(error);
+        setStatus('rejected');
+      }
+    }
+
+    getMovieCast(movieId).then(newData => {
+      setCast(newData);
+      setStatus('resolved');
+    });
   }, [movieId]);
-  console.log(cast);
 
   return (
     <>
-      {cast && (
-        <>
-          <ul className={s.list}>
-            {cast.cast.map(({ id, character, name, profile_path }) => {
-              return (
-                <li key={id} className={s.item}>
-                  <img
-                    src={
-                      profile_path ? `${IMG_URL}${profile_path}` : defaultImage
-                    }
-                    width="300"
-                    alt={name}
-                    className={s.avatar}
-                  />
-                  <div className={s.content}>
-                    <p className={s.name}>{name}</p>
-                    <p className={s.character}>{character}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </>
+      {status === 'idle' && <></>}
+      {status === 'pending' && <Loader />}
+      {status === 'rejected' && <h1>{error}</h1>}
+      {status === 'resolved' && cast && (
+        <ul className={s.list}>
+          {cast.cast.map(({ id, character, name, profile_path }) => (
+            <li key={id} className={s.item}>
+              <img
+                src={profile_path ? `${IMG_URL}${profile_path}` : defaultImage}
+                alt={name}
+                className={s.avatar}
+              />
+              <div className={s.content}>
+                <p className={s.name}>{name}</p>
+                <p className={s.character}>{character}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
     </>
   );

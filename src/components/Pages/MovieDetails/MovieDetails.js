@@ -1,8 +1,9 @@
-import { getMovieById } from '../../API/fetchAPI';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Link, useParams, useLocation } from 'react-router-dom';
-import { IMG_URL } from '../../CONST';
+
 import Loader from 'components/Loader';
+
+import { API_KEY, URL, IMG_URL } from 'components/CONST';
 import s from './MovieDetails.module.css';
 
 const MovieDetailCastSubView = lazy(() => import('../Cast/Cast'));
@@ -10,12 +11,31 @@ const MovieReviewsView = lazy(() => import('../Reviews'));
 
 export default function MovieDetailView() {
   const [movie, setMovie] = useState(null);
+  const [path, setPath] = useState('/');
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState(null);
   const { movieId } = useParams();
   const location = useLocation();
-  const [path, setPath] = useState('/');
 
   useEffect(() => {
-    getMovieById(movieId).then(setMovie);
+    setStatus('pending');
+
+    const axios = require('axios');
+
+    async function getMovieById(movieId) {
+      const url = `${URL}movie/${movieId}?api_key=${API_KEY}`;
+      try {
+        const response = await axios.get(url);
+        return response.data;
+      } catch (error) {
+        setError(error);
+        setStatus('rejected');
+      }
+    }
+    getMovieById(movieId).then(newMovie => {
+      setMovie(newMovie);
+      setStatus('resolved');
+    });
   }, [movieId]);
 
   useEffect(() => {
@@ -26,13 +46,14 @@ export default function MovieDetailView() {
       location?.state?.from?.pathname + location?.state?.from?.search ?? '/'
     );
   }, [location?.state?.from]);
-  // console.log('path', path);
-  // console.log(location);
 
   return (
     <div className={s.MovieDetail}>
       <Link to={path} className={s.linkButton}></Link>
-      {movie && (
+      {status === 'idle' && <></>}
+      {status === 'pending' && <Loader />}
+      {status === 'rejected' && <h1>{error}</h1>}
+      {status === 'resolved' && movie && (
         <div className={s.detailsBlock}>
           <img
             src={`${IMG_URL}${movie.poster_path}`}
@@ -71,7 +92,6 @@ export default function MovieDetailView() {
           </Link>
         </p>
       </div>
-
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route

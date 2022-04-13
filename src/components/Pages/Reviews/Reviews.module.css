@@ -11,6 +11,7 @@
   align-items: center;
 }
 .avatar {
+  width: 100px;
   border-radius: 6px;
 }
 .nick {

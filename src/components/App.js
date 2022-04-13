@@ -1,15 +1,9 @@
-import React from 'react';
-import { lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Loader from './Loader';
 
 import Container from './Container';
 import AppBar from './AppBar';
-
-// import HomeView from './Pages/HomeView';
-// import MovieDetailView from './Pages/MovieDetailView';
-// import NotFoundView from './Pages/NotFoundView';
-// import FindMovies from './Pages/FindMovies/FindMovies';
+import Loader from './Loader';
 
 const HomeView = lazy(() => import('./Pages/Home/Home'));
 const MovieDetailView = lazy(() => import('./Pages/MovieDetails/MovieDetails'));
@@ -24,13 +18,13 @@ export default function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" exact element={<HomeView />} />
-            <Route path="/movies/*" element={<FindMovies />} />
+            <Route path="/movies" element={<FindMovies />} />
             <Route
               path="/movies/:movieId/*"
               element={<MovieDetailView />}
             ></Route>
 
-            <Route element={<NotFoundView />} />
+            <Route path="*" element={<NotFoundView />} />
           </Routes>
         </Suspense>
       </Container>

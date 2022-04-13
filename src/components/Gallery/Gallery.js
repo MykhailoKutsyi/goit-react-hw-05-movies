@@ -5,7 +5,7 @@ import defaultImage from '../IMG/movieNotFound.png';
 import s from './Gallery.module.css';
 
 export default function Gallery({ movies }) {
-  console.log(movies);
+  //   console.log(movies);
   const location = useLocation();
   return (
     <ul className={s.list}>

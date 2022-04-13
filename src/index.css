@@ -1,8 +1,6 @@
 @import-normalize; /* bring in normalize.css styles */
 
 body {
-  /* background-color: #243552; */
-  /* background: #243552; */
   background: #6f86ad;
 
   margin: 0;
@@ -19,14 +17,12 @@ code {
 }
 
 #root {
-  /* width: 400px; */
   background: #6f86ad;
 
   margin-top: 25px;
   margin-bottom: 25px;
   margin-right: auto;
   margin-left: auto;
-  /* background-color: white; */
   padding: 15px;
   border-radius: 6px;
 }
