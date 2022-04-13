@@ -1,6 +1,8 @@
+import { API_KEY, URL } from 'components/CONST';
+
 const axios = require('axios');
 export async function getMovies() {
-  const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=e1780eaef9609cf3d5283262d6798136`;
+  const url = `${URL}trending1/movie/day?api_key=${API_KEY}`;
 
   try {
     const response = await axios.get(url);
@@ -14,7 +16,7 @@ export async function getMovies() {
 
 export async function getMovieById(movieId) {
   console.log('it was getMovieById');
-  const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=e1780eaef9609cf3d5283262d6798136`;
+  const url = `${URL}movie/${movieId}?api_key=${API_KEY}`;
   try {
     const response = await axios.get(url);
     // console.log(response);
@@ -26,9 +28,8 @@ export async function getMovieById(movieId) {
 }
 
 //Get the cast and crew for a movie.
-
 export async function getMovieCast(movieId) {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=e1780eaef9609cf3d5283262d6798136`;
+  const url = `${URL}movie/${movieId}/credits?api_key=${API_KEY}`;
   try {
     const response = await axios.get(url);
     // console.log(response);
@@ -40,12 +41,10 @@ export async function getMovieCast(movieId) {
 }
 
 //Get the user reviews for a movie.
-
 export async function getMovieReviews(movieId) {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=e1780eaef9609cf3d5283262d6798136`;
+  const url = `${URL}movie/${movieId}/reviews?api_key=${API_KEY}`;
   try {
     const response = await axios.get(url);
-    // console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -57,7 +56,7 @@ export async function getMovieReviews(movieId) {
 //Search for movies.
 export async function getSearchMovie(movie) {
   console.log('movie', movie);
-  const url = `https://api.themoviedb.org/3/search/movie/?api_key=e1780eaef9609cf3d5283262d6798136&query=${movie}`;
+  const url = `${URL}search/movie/?api_key=${API_KEY}&query=${movie}`;
   try {
     const response = await axios.get(url);
     // console.log(response);

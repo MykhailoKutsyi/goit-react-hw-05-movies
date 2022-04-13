@@ -1,7 +1,6 @@
 import { getMovieById } from '../../API/fetchAPI';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Link, useParams, useLocation } from 'react-router-dom';
-// import { useNavigation } from '@react-navigation/native';
 import { IMG_URL } from '../../CONST';
 import Loader from 'components/Loader';
 import s from './MovieDetails.module.css';
@@ -13,53 +12,26 @@ export default function MovieDetailView() {
   const [movie, setMovie] = useState(null);
   const { movieId } = useParams();
   const location = useLocation();
-  // let navigate = useNavigate();
-
   const [path, setPath] = useState('/');
-
-  // console.log(location, 'location');
-
-  // useEffect(() => {
-  // setPath(location?.state?.from + location?.state?.search);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-  // console.log('path', path);
-  // const navigate = useNavigation();
-  // const navigation = useNavigation();
-  // console.log(navigation);
-  // const history = useHistory();
 
   useEffect(() => {
     getMovieById(movieId).then(setMovie);
-    // setPath(location?.state?.from ?? '/');
   }, [movieId]);
 
   useEffect(() => {
-    setPath(location?.state?.from ?? '/');
+    if (!location?.state?.from) {
+      return;
+    }
+    setPath(
+      location?.state?.from?.pathname + location?.state?.from?.search ?? '/'
+    );
   }, [location?.state?.from]);
-
-  console.log(path);
-
-  const onGoBack = () => {
-    console.log(location, 'location');
-    console.log('location?.state?.from', location?.state?.from);
-  };
-
-  console.log('location?.state?.from', location?.state?.from);
+  // console.log('path', path);
+  // console.log(location);
 
   return (
     <div className={s.MovieDetail}>
-      <button type="button" onClick={onGoBack}>
-        Back
-      </button>
-      <Link
-        to={{
-          pathname: path,
-        }}
-      >
-        Back
-      </Link>
+      <Link to={path} className={s.linkButton}></Link>
       {movie && (
         <div className={s.detailsBlock}>
           <img
@@ -100,7 +72,6 @@ export default function MovieDetailView() {
         </p>
       </div>
 
-      <hr />
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route

@@ -24,7 +24,7 @@ export default function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" exact element={<HomeView />} />
-            <Route path="/movies" element={<FindMovies />} />
+            <Route path="/movies/*" element={<FindMovies />} />
             <Route
               path="/movies/:movieId/*"
               element={<MovieDetailView />}
