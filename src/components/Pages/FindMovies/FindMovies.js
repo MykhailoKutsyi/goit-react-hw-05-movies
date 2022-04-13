@@ -1,15 +1,11 @@
 import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import form from './FindMovies.module.css';
-import s from '../../Gallery/Gallery.module.css';
-// import PropTypes from 'prop-types';
 import { getSearchMovie } from '../../API/fetchAPI';
-import { IMG_URL } from 'components/CONST';
-import defaultImage from '../../IMG/movieNotFound.png';
-// import { useEffect } from 'react/cjs/react.production.min';
 import Gallery from '../../Gallery';
+
 export default function FindMovies() {
   const [request, setRequest] = useState('');
   const [movies, setMovies] = useState(null);
@@ -23,7 +19,6 @@ export default function FindMovies() {
       return;
     }
     getSearchMovie(search.slice(8)).then(setMovies);
-    console.log('borisko');
   }, [search]);
 
   console.log('search', search);

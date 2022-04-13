@@ -24,7 +24,7 @@ async function getMovies() {
 
 export default function HomeView() {
   const [movies, setMovies] = useState(null);
-  const [status, setStatus] = useState('idle');
+  // const [status, setStatus] = useState('idle');
   useEffect(() => {
     // setStatus
     getMovies().then(setMovies);
@@ -33,8 +33,8 @@ export default function HomeView() {
 
   return (
     <>
-      {status === 'idle' && <></>}
-      {status === 'idle' && <></>}
+      {/* {status === 'idle' && <></>} */}
+      {/* {status === 'idle' && <></>} */}
       {movies && <Gallery movies={movies} />}
     </>
   );

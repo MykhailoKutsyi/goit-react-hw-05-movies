@@ -1,4 +1,4 @@
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { IMG_URL } from 'components/CONST';
 import defaultImage from '../IMG/movieNotFound.png';
