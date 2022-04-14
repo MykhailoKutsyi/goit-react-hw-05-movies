@@ -22,7 +22,7 @@ export default function FindMovies() {
     const axios = require('axios');
     async function getSearchMovie(movie) {
       console.log('movie', movie);
-      const url = `${URL}search/movie/?api_key=${API_KEY}&query=${movie}`;
+      const url = `${URL}search/movie?api_key=${API_KEY}&query=${movie}`;
       try {
         const response = await axios.get(url);
         return response.data.results;
