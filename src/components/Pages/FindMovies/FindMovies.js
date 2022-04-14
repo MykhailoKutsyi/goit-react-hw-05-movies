@@ -31,9 +31,9 @@ export default function FindMovies() {
         setStatus('rejected');
       }
     }
-
+    console.log(search);
     setStatus('pending');
-    getSearchMovie(search.slice(8)).then(newData => {
+    getSearchMovie(search.slice(9)).then(newData => {
       setMovies(newData);
       setStatus('resolved');
     });
@@ -82,7 +82,7 @@ export default function FindMovies() {
 
       {status === 'idle' && <></>}
       {status === 'pending' && <Loader />}
-      {status === 'pending' && <h1>{error}</h1>}
+      {status === 'rejected' && <h1>{error}</h1>}
       {status === 'resolved' && movies && <Gallery movies={movies} />}
     </>
   );
