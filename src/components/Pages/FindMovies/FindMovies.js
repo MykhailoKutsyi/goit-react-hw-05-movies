@@ -21,7 +21,6 @@ export default function FindMovies() {
     }
     const axios = require('axios');
     async function getSearchMovie(movie) {
-      console.log('movie', movie);
       const url = `${URL}search/movie?api_key=${API_KEY}&query=${movie}`;
       try {
         const response = await axios.get(url);
@@ -31,7 +30,6 @@ export default function FindMovies() {
         setStatus('rejected');
       }
     }
-    console.log(search);
     setStatus('pending');
     getSearchMovie(search.slice(9)).then(newData => {
       setMovies(newData);
@@ -44,11 +42,11 @@ export default function FindMovies() {
   };
 
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams);
 
   const handleSubmit = e => {
     e.preventDefault();
     setSearchParams({ request: request.toLowerCase() });
+    console.log(searchParams);
     reset();
   };
 
