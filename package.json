@@ -2,6 +2,7 @@
   "name": "goit-react-hw-05-movies",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://MykhailoKutsyi.github.io/goit-react-hw-05-movies/",
   "dependencies": {
     "axios": "^0.26.1",
     "nanoid": "^3.3.2",
