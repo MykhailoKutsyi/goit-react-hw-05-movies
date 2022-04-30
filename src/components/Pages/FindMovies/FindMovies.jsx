@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { nanoid } from 'nanoid';
 
 import Gallery from '../../Gallery';
 import Loader from 'components/Loader';
@@ -47,14 +46,8 @@ export default function FindMovies() {
     e.preventDefault();
     setSearchParams({ request: request.toLowerCase() });
     console.log(searchParams);
-    reset();
   };
 
-  const reset = () => {
-    setRequest('');
-  };
-
-  const nameId = nanoid();
   return (
     <>
       <form onSubmit={handleSubmit} className={s.SearchForm}>
@@ -62,14 +55,13 @@ export default function FindMovies() {
           <span className={s.SearchFormButtonLabel}></span>
         </button>
 
-        <label htmlFor={nameId}>
+        <label>
           <input
             type="text"
             autoComplete="off"
             name="request"
             value={request}
             onChange={handleChange}
-            id={nameId}
             autoFocus
             placeholder="Search films"
             className={s.SearchFormInput}

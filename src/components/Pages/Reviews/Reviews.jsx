@@ -39,7 +39,7 @@ export default function MovieDetailCastSubView() {
       {status === 'idle' && <></>}
       {status === 'pending' && <Loader />}
       {status === 'rejected' && <h1>{error}</h1>}
-      {status === 'resolved' && reviews && reviews.results.length === 0 && (
+      {status === 'resolved' && reviews.results.length === 0 && (
         <div className={s.notFound}>Not reviews for this movie.</div>
       )}
       {status === 'resolved' && reviews && (

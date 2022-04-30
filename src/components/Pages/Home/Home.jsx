@@ -24,7 +24,6 @@ export default function HomeView() {
       setStatus('rejected');
     }
   }, []);
-  // console.log(movies);
 
   return (
     <>

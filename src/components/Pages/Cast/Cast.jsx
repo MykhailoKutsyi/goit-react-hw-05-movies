@@ -21,7 +21,7 @@ export default function MovieDetailCastSubView() {
       const url = `${URL}movie/${movieId}/credits?api_key=${API_KEY}`;
       try {
         const response = await axios.get(url);
-        return response.data;
+        return response.data.cast;
       } catch (error) {
         setError(error);
         setStatus('rejected');
@@ -39,9 +39,14 @@ export default function MovieDetailCastSubView() {
       {status === 'idle' && <></>}
       {status === 'pending' && <Loader />}
       {status === 'rejected' && <h1>{error}</h1>}
+      {status === 'resolved' && cast.length === 0 && (
+        <div className={s.notFound}>
+          This paragraph is empty for this movie.
+        </div>
+      )}
       {status === 'resolved' && cast && (
         <ul className={s.list}>
-          {cast.cast.map(({ id, character, name, profile_path }) => (
+          {cast.map(({ id, character, name, profile_path }) => (
             <li key={id} className={s.item}>
               <img
                 src={profile_path ? `${IMG_URL}${profile_path}` : defaultImage}
