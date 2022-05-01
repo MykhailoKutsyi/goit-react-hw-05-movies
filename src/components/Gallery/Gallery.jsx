@@ -1,7 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import { IMG_URL } from 'components/CONST';
-import defaultImage from '../IMG/movieNotFound.png';
+import { IMG_URL } from 'utils/constants';
+import defaultImage from 'assets/images/movieNotFound.png';
+
+import PropTypes from 'prop-types';
 import s from './Gallery.module.css';
 
 export default function Gallery({ movies }) {
@@ -30,3 +32,25 @@ export default function Gallery({ movies }) {
     </>
   );
 }
+
+Gallery.propTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      adult: PropTypes.bool.isRequired,
+      backdrop_path: PropTypes.string,
+      genre_ids: PropTypes.arrayOf(PropTypes.number),
+      id: PropTypes.number.isRequired,
+      media_type: PropTypes.string,
+      original_language: PropTypes.string.isRequired,
+      original_title: PropTypes.string.isRequired,
+      overview: PropTypes.string.isRequired,
+      popularity: PropTypes.number.isRequired,
+      poster_path: PropTypes.string,
+      release_date: PropTypes.string,
+      title: PropTypes.string.isRequired,
+      video: PropTypes.bool,
+      vote_average: PropTypes.number,
+      vote_count: PropTypes.number,
+    })
+  ),
+};

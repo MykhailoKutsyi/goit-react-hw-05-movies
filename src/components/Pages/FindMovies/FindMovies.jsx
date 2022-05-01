@@ -4,7 +4,7 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import Gallery from '../../Gallery';
 import Loader from 'components/Loader';
 
-import { API_KEY, URL } from 'components/CONST';
+import { getSearchMovie } from 'services/API';
 import s from './FindMovies.module.css';
 
 export default function FindMovies() {
@@ -18,22 +18,18 @@ export default function FindMovies() {
     if (!search) {
       return;
     }
-    const axios = require('axios');
-    async function getSearchMovie(movie) {
-      const url = `${URL}search/movie?api_key=${API_KEY}&query=${movie}`;
-      try {
-        const response = await axios.get(url);
-        return response.data.results;
-      } catch (error) {
-        setError(error);
-        setStatus('rejected');
-      }
-    }
     setStatus('pending');
-    getSearchMovie(search.slice(9)).then(newData => {
-      setMovies(newData);
-      setStatus('resolved');
-    });
+    setRequest(search.slice(9));
+    try {
+      const response = getSearchMovie(search.slice(9));
+      return response.then(newData => {
+        setMovies(newData.data.results);
+        setStatus('resolved');
+      });
+    } catch (error) {
+      setError(error);
+      setStatus('rejected');
+    }
   }, [search]);
 
   const handleChange = e => {

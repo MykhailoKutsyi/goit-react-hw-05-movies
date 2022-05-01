@@ -5,14 +5,14 @@ import Container from './components/Container';
 import AppBar from './components/AppBar';
 import Loader from './components/Loader';
 
-const HomeView = lazy(() => import('./components/Pages/Home/Home'));
-const MovieDetailView = lazy(() =>
-  import('./components/Pages/MovieDetails/MovieDetails')
+const Home = lazy(() => import('./components/pages/Home/Home'));
+const MovieDetail = lazy(() =>
+  import('./components/pages/MovieDetails/MovieDetails')
 );
 const FindMovies = lazy(() =>
-  import('./components/Pages/FindMovies/FindMovies')
+  import('./components/pages/FindMovies/FindMovies')
 );
-const NotFoundView = lazy(() => import('./components/Pages/NotFound/NotFound'));
+const NotFoundView = lazy(() => import('./components/pages/NotFound/NotFound'));
 
 export default function App() {
   return (
@@ -20,9 +20,9 @@ export default function App() {
       <AppBar />
       <Suspense fallback={<Loader />}>
         <Routes>
-          <Route path="/" exact element={<HomeView />} />
+          <Route path="/" element={<Home />} />
           <Route path="movies" element={<FindMovies />} />
-          <Route path="movies/:movieId/*" element={<MovieDetailView />}></Route>
+          <Route path="movies/:movieId/*" element={<MovieDetail />}></Route>
 
           <Route path="*" element={<NotFoundView />} />
         </Routes>

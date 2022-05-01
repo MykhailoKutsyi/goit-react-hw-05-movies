@@ -3,13 +3,14 @@ import { Routes, Route, Link, useParams, useLocation } from 'react-router-dom';
 
 import Loader from 'components/Loader';
 
-import { API_KEY, URL, IMG_URL } from 'components/CONST';
+import { getMovieById } from 'services/API';
+import { IMG_URL } from 'utils/constants';
 import s from './MovieDetails.module.css';
 
-const MovieDetailCastSubView = lazy(() => import('../Cast/Cast'));
-const MovieReviewsView = lazy(() => import('../Reviews'));
+const Cast = lazy(() => import('../Cast/Cast'));
+const Reviews = lazy(() => import('../Reviews'));
 
-export default function MovieDetailView() {
+export default function MovieDetail() {
   const [movie, setMovie] = useState(null);
   const [path, setPath] = useState('/');
   const [status, setStatus] = useState('idle');
@@ -19,23 +20,16 @@ export default function MovieDetailView() {
 
   useEffect(() => {
     setStatus('pending');
-
-    const axios = require('axios');
-
-    async function getMovieById(movieId) {
-      const url = `${URL}movie/${movieId}?api_key=${API_KEY}`;
-      try {
-        const response = await axios.get(url);
-        return response.data;
-      } catch (error) {
-        setError(error);
-        setStatus('rejected');
-      }
+    try {
+      const response = getMovieById(movieId);
+      return response.then(newMovie => {
+        setMovie(newMovie.data);
+        setStatus('resolved');
+      });
+    } catch (error) {
+      setError(error);
+      setStatus('rejected');
     }
-    getMovieById(movieId).then(newMovie => {
-      setMovie(newMovie);
-      setStatus('resolved');
-    });
   }, [movieId]);
 
   useEffect(() => {
@@ -94,14 +88,8 @@ export default function MovieDetailView() {
       </div>
       <Suspense fallback={<Loader />}>
         <Routes>
-          <Route
-            path="cast"
-            element={<MovieDetailCastSubView movieId={movieId} />}
-          />
-          <Route
-            path="reviews"
-            element={<MovieReviewsView movieId={movieId} />}
-          />
+          <Route path="cast" element={<Cast movieId={movieId} />} />
+          <Route path="reviews" element={<Reviews movieId={movieId} />} />
         </Routes>
       </Suspense>
     </div>

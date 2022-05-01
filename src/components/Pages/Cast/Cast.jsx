@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom';
 
 import Loader from 'components/Loader';
 
-import { API_KEY, URL, IMG_URL } from 'components/CONST';
-import defaultImage from '../../IMG/defaultUserImage.png';
+import { getCast } from 'services/API';
+import { IMG_URL } from 'utils/constants';
+import defaultImage from 'assets/images/defaultUserImage.png';
+
 import s from './Cast.module.css';
 
-export default function MovieDetailCastSubView() {
+export default function Cast() {
   const [cast, setCast] = useState(null);
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
@@ -15,23 +17,16 @@ export default function MovieDetailCastSubView() {
 
   useEffect(() => {
     setStatus('pending');
-    const axios = require('axios');
-
-    async function getMovieCast(movieId) {
-      const url = `${URL}movie/${movieId}/credits?api_key=${API_KEY}`;
-      try {
-        const response = await axios.get(url);
-        return response.data.cast;
-      } catch (error) {
-        setError(error);
-        setStatus('rejected');
-      }
+    try {
+      const response = getCast(movieId);
+      return response.then(newData => {
+        setCast(newData.data.cast);
+        setStatus('resolved');
+      });
+    } catch (error) {
+      setError(error);
+      setStatus('rejected');
     }
-
-    getMovieCast(movieId).then(newData => {
-      setCast(newData);
-      setStatus('resolved');
-    });
   }, [movieId]);
 
   return (
