@@ -20,7 +20,16 @@ export default function Reviews() {
     try {
       const response = getReviews(movieId);
       return response.then(newData => {
-        setReviews(newData.data.results);
+        setReviews(
+          newData.data.results.map(
+            ({ id, author, author_details, content }) => ({
+              id,
+              author,
+              author_details,
+              content,
+            })
+          )
+        );
         setStatus('resolved');
       });
     } catch (error) {
@@ -37,30 +46,33 @@ export default function Reviews() {
       {status === 'resolved' && reviews.length === 0 && (
         <div className={s.notFound}>Not reviews for this movie.</div>
       )}
+
       {status === 'resolved' && reviews && (
         <ul className={s.list}>
-          {reviews.map(({ id, author, author_details, content }) => {
-            const avatar =
-              author_details.avatar_path === null
-                ? false
-                : author_details.avatar_path.startsWith('/https')
-                ? author_details.avatar_path.substring(1)
-                : `${IMG_URL}${author_details.avatar_path}`;
+          {reviews.map(
+            ({ id, author, author_details: { avatar_path }, content }) => {
+              const avatar =
+                avatar_path === null
+                  ? false
+                  : avatar_path.startsWith('/https')
+                  ? avatar_path.substring(1)
+                  : `${IMG_URL}${avatar_path}`;
 
-            return (
-              <li key={id} className={s.item}>
-                <div className={s.author}>
-                  <img
-                    src={avatar || defaultImage}
-                    alt={author}
-                    className={s.avatar}
-                  />
-                  <p className={s.nick}>{author}</p>
-                </div>
-                <p>{content}</p>
-              </li>
-            );
-          })}
+              return (
+                <li key={id} className={s.item}>
+                  <div className={s.author}>
+                    <img
+                      src={avatar || defaultImage}
+                      alt={author}
+                      className={s.avatar}
+                    />
+                    <p className={s.nick}>{author}</p>
+                  </div>
+                  <p>{content}</p>
+                </li>
+              );
+            }
+          )}
         </ul>
       )}
     </>

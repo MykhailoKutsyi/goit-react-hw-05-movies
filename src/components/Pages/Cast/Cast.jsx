@@ -20,7 +20,14 @@ export default function Cast() {
     try {
       const response = getCast(movieId);
       return response.then(newData => {
-        setCast(newData.data.cast);
+        setCast(
+          newData.data.cast.map(({ id, character, name, profile_path }) => ({
+            id,
+            character,
+            name,
+            profile_path,
+          }))
+        );
         setStatus('resolved');
       });
     } catch (error) {

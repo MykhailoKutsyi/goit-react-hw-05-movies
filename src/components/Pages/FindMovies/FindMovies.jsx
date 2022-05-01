@@ -23,7 +23,13 @@ export default function FindMovies() {
     try {
       const response = getSearchMovie(search.slice(9));
       return response.then(newData => {
-        setMovies(newData.data.results);
+        setMovies(
+          newData.data.results.map(({ id, poster_path, title }) => ({
+            id,
+            poster_path,
+            title,
+          }))
+        );
         setStatus('resolved');
       });
     } catch (error) {

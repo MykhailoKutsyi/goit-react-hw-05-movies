@@ -15,7 +15,13 @@ export default function Home() {
     try {
       const response = getTrendingMovies();
       return response.then(newData => {
-        setMovies(newData.data.results);
+        setMovies(
+          newData.data.results.map(({ id, poster_path, title }) => ({
+            id,
+            poster_path,
+            title,
+          }))
+        );
         setStatus('resolved');
       });
     } catch (error) {

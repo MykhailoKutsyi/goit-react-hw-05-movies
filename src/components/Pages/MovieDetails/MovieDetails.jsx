@@ -22,10 +22,34 @@ export default function MovieDetail() {
     setStatus('pending');
     try {
       const response = getMovieById(movieId);
-      return response.then(newMovie => {
-        setMovie(newMovie.data);
-        setStatus('resolved');
-      });
+      return response.then(
+        ({
+          data: {
+            id,
+            poster_path,
+            title,
+            genres,
+            release_date,
+            vote_average,
+            vote_count,
+            overview,
+            budget,
+          },
+        }) => {
+          setMovie({
+            id,
+            poster: poster_path,
+            title: title,
+            genres,
+            releaseDate: release_date,
+            voteAverage: vote_average,
+            voteCount: vote_count,
+            overview,
+            budget,
+          });
+          setStatus('resolved');
+        }
+      );
     } catch (error) {
       setError(error);
       setStatus('rejected');
@@ -50,7 +74,7 @@ export default function MovieDetail() {
       {status === 'resolved' && movie && (
         <div className={s.detailsBlock}>
           <img
-            src={`${IMG_URL}${movie.poster_path}`}
+            src={`${IMG_URL}${movie.poster}`}
             alt={movie.title}
             className={s.poster}
           />
@@ -59,9 +83,9 @@ export default function MovieDetail() {
             <p className={s.text}>Release date: {movie.release_date}</p>
             <p className={s.text}>
               <span className={s.text}>
-                Vote - average / count : {movie.vote_average} /{' '}
+                Vote - average / count : {movie.voteAverage} /{' '}
               </span>
-              <span className={s.text}>{movie.vote_count}</span>
+              <span className={s.text}>{movie.voteCount}</span>
             </p>
             <p className={s.text}>
               Genres:
